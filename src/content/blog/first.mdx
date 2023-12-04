@@ -1,0 +1,62 @@
+---
+title: 'FirstEntry'
+pubDate: 2023-12-03
+description: 'FirstEntry'
+author: "XXX"
+image: ""
+url: ""
+alt: 'FirstEntry'
+tags: ["astro", "tag0", "tag1" ]
+seqNum: 0
+---
+import BlogImage from '../../components/BlogImage.astro';
+import BlogVideo from '../../components/BlogVideo.astro';
+
+## セットアップ手順
+
+すでに Ubuntu と、そこに node がインストールされている環境で以下を実行する。
+
+astro_blic_publicレポジトリをクローンする。
+
+```sh
+
+git clone https://github.com/imosan/astro_blik_public.git
+
+```
+クローンしたディレクトリに入る。
+```sh
+
+cd astro_blik_public
+
+```
+すべてのパッケージをインストールする。
+```sh
+
+npm install
+
+```
+pnpmならば、
+```sh
+
+pnpm install
+
+```
+ローカルで起動する。
+```sh
+
+npm run dev
+
+```
+最後に、表示されたURLをブラウザで開く。通常は <a href="http://localhost:4321">localhost:4321</a>
+
+
+## vercelにデプロイする
+
+```sh
+
+vercel
+
+```
+
+Vercel CLI 32.5.5
+? Set up and deploy “/mnt/c/Development/Firebase/astro_blik_public”? [Y/n]

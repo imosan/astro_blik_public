@@ -1,0 +1,63 @@
+---
+const hamLineStyle : Array<string> = ["w-8 h-1 my-2",
+                      "border-0 rounded",
+                      "bg-gray-300"
+                      ];
+---
+
+<div id="hamButton" class="md:hidden group cursor-pointer transition duration-700 ease-in-out">
+    <div id="hamLines" class="absolute top-8 md:top-14 end-6">
+        <hr id="bar_0" class:list={["transition duration-100 ease-in-out", ...hamLineStyle]}>
+        <hr id="bar_1" class:list={["transition duration-200 ease-in-out", ...hamLineStyle]}>
+        <hr id="bar_2" class:list={["transition duration-300 ease-in-out", ...hamLineStyle]}>
+    </div>
+</div>
+
+<div id="hamMenu" class:list={[
+    "md:hidden",
+    "transition-height duration-500 ease-in-out",
+    "h-0",
+    "flex flex-col text-center font-bold bg-gray-900 text-slate-50"]}>
+    <a id="toHome" class="py-4 h-" href="/">Home</a>
+    <a id="toBlog" class="py-4" href="/blog">Blog</a>
+    <a id="toTags" class="py-4" href="/tags/">Tags</a>
+</div>
+
+<script is:inline>
+
+    const handleToggleClick = () => {
+        document.querySelectorAll("#bar_0, #bar_1, #bar_2").forEach((e) => {
+          let classList = e.classList;
+          if (classList.contains("bg-gray-300")) {
+              classList.remove("bg-gray-300");
+              classList.add("bg-gray-900");
+          } else {
+              classList.remove("bg-gray-900");
+              classList.add("bg-gray-300");
+          }});
+
+        let classList = document.getElementById("hamMenu").classList;
+        if (classList.contains("h-64")) {
+            classList.remove("h-64");
+            classList.add("h-0");
+        } else {
+            classList.remove("h-0");
+            classList.add("h-64");
+        }
+    };
+
+    const hideMenu = () => {
+        let classList = document.getElementById("hamMenu").classList;
+        if (classList.contains("h-60")) {
+            classList.remove("h-60");
+            classList.add("h-0");
+        }
+    };
+
+    document.getElementById("hamButton").addEventListener("click", handleToggleClick);
+
+    document.getElementById("toHome").addEventListener("click", hideMenu);
+    document.getElementById("toBlog").addEventListener("click", hideMenu);
+    document.getElementById("toTags").addEventListener("click", hideMenu);
+
+</script>
