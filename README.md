@@ -1,47 +1,78 @@
-# Astro Starter Kit: Minimal
+## Publish blog part as astro_blik_public
+
+A repository that displays entries with <a href="https://www.blender-ikkinomi.com/blog/first/">**blog**</a> in the tags is now available here.
+
+<a href="https://www.blender-ikkinomi.com/blog/first">BLENDER IKKINOMI</a>
+
+If you add entries as .md or .mdx files under /src/content/blog/, it will function as a blog site.
+You can also redistribute and publish your original design by changing the css and tailwindcss descriptions in various places.
+
+The setup procedure is as follows
+
+## Setup Instructions
+
+Clone the astro_blik_public repository.
 
 ```sh
-npm create astro@latest -- --template minimal
+
+git clone https://github.com/imosan/astro_blik_public.git
+
+```
+Enter the cloned directory.
+```sh
+
+cd astro_blik_public
+
+```
+Install all packages.
+```sh
+
+npm install
+
+```
+If pnpm,
+```sh
+
+pnpm install
+
+```
+Start locally.
+```sh
+
+npm run dev
+
+```
+At the end, open the displayed URL in your browser. Typically, it is <a href='http://localhost:4321'>localhost:4321</a>.
+
+
+## Deploy to vercel
+
+Execute the vercel command.
+
+```sh
+
+vercel
+
+```
+Answer the following choices.
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+Vercel CLI 32.5.5
+? Set up and deploy “/mnt/c/Development/Firebase/astro_blik_public”? [Y/n] Y
+? Which scope do you want to deploy to? xxxx
+? Link to existing project? [y/N] n
+? In which directory is your code located? ./
+? Want to modify these settings? [y/N] N
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
 ```
+When the build finishes, the deployed URL will appear as Preview: https://xxx.vercel.app, which can be accessed.
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+The following is the author's deployment using the above procedure.
 
-Any static assets, like images, can be placed in the `public/` directory.
+https://astro-blik-public-m8v6hsy55-imosans-projects.vercel.app/
 
-## 🧞 Commands
 
-All commands are run from the root of the project, from a terminal:
+It is amazing how seamless and sophisticated vercel is, acting as if it is a part of github.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+The vercel blob is still under preparation, but once it is up and running, it is likely to revolutionize the CMS world with the creation of services that handle everything from templates to deployment in a single step.
