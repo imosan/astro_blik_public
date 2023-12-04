@@ -2,7 +2,7 @@
 
 A repository that displays entries with <a href="https://www.blender-ikkinomi.com/blog/first/">**blog**</a> in the tags is now available here.
 
-<a href="https://www.blender-ikkinomi.com/blog/first">BLENDER IKKINOMI</a>
+<a href="https://www.blender-ikkinomi.com">BLENDER IKKINOMI</a>
 
 If you add entries as .md or .mdx files under /src/content/blog/, it will function as a blog site.
 You can also redistribute and publish your original design by changing the css and tailwindcss descriptions in various places.
