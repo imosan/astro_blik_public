@@ -1,4 +1,4 @@
-## Publish blog part as astro_blik_public
+## blog part of astro_blik
 
 A repository that displays entries with <a href="https://www.blender-ikkinomi.com/blog/first/">**blog**</a> in the tags is now available here.
 
