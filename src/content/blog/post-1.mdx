@@ -52,11 +52,27 @@ npm run dev
 
 ## vercelにデプロイする
 
+vercelコマンドを実行する。
+
 ```sh
 
 vercel
 
 ```
+以下のような選択肢に答える。
+```
 
 Vercel CLI 32.5.5
-? Set up and deploy “/mnt/c/Development/Firebase/astro_blik_public”? [Y/n]
+? Set up and deploy “/mnt/c/Development/Firebase/astro_blik_public”? [Y/n] Y
+? Which scope do you want to deploy to? xxxx
+? Link to existing project? [y/N] n
+? In which directory is your code located? ./
+? Want to modify these settings? [y/N] N
+
+```
+ビルドが終了するとデプロイされたURLが Preview: https://xxx.vercel.app のように表示されるので、アクセスする。
+
+
+以下は、上記の手順で、筆者がデプロイしたもの。
+
+https://astro-blik-public-m8v6hsy55-imosans-projects.vercel.app/
