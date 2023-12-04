@@ -18,6 +18,23 @@ const { Content, headings } = await entry.render();
 
 
 <style>
+#post :global(pre) {
+    word-wrap: break-word;
+    color: #d4d4d4;
+    padding-left: 18px;
+    border-radius: 6px;
+    overflow: auto;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+#post :global(code) {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 16px;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
 #post :global(.cmt) {
     background-color: rgb(157 234 203);
     border-color: rgb(107 114 128);
