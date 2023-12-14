@@ -1,11 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import BlogPost from "../../components/BlogPost.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import BlogPost from "../../../components/BlogPost.astro";
 
 export async function getStaticPaths() {
     const blogEntries = await getCollection('blog');
-    const blogLocaleEntries = blogEntries.slice().filter((post) => post.data.locale === "jp");
+    const blogLocaleEntries = blogEntries.slice().filter((post) => post.data.locale === "en");
     const allPosts = [...blogLocaleEntries];
     const comparePubDateFn = (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
 
@@ -27,7 +27,7 @@ const { tag } = Astro.params;
 const { posts } = Astro.props;
 ---
 
-<BaseLayout currentLang={"jp"} pageTitle={tag}>
+<BaseLayout currentLang={"en"} pageTitle={tag}>
     <div class="grid grid-cols-8 gap-4 my-16">
         <div class="col-span-1 hidden md:block">
             <div class="tags">

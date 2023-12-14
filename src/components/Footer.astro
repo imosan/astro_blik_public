@@ -1,4 +1,7 @@
 ---
+import { languages, defaultLang, ui } from '../i18n/ui';
+const { currentLang } = Astro.props;
+const lang = currentLang ? currentLang : "jp";
 ---
 
 <footer >
@@ -11,17 +14,24 @@
         <ul class="grid grid-cols-1 md:grid-cols-2 gap-16">
         {
             <div class="w-full left">
-                <p class="font-bold py-4">サイトマップ</p>
+                <p class="font-bold py-4">{ui[lang].footerTitle}</p>
                 <ul class="text-gray-500">
-                    <li class="px-8 py-1 text-sm"><a href="/">ホーム</a></li>
-                    <li class="px-8 py-1 text-sm"><a href="/privacypolicy">プライバシーポリシー</a></li>
+                    { lang == defaultLang ?
+                        <li class="px-8 py-1 text-sm"><a href="/">{ui[lang].home}</a></li>
+                        <li class="px-8 py-1 text-sm"><a href="/blog">{ui[lang].blog}</a></li>
+                        <li class="px-8 py-1 text-sm"><a href="/privacypolicy">{ui[lang].privacy}</a></li>
+                    :
+                        <li class="px-8 py-1 text-sm"><a href={`/${lang}`}>{ui[lang].home}</a></li>
+                        <li class="px-8 py-1 text-sm"><a href={`/${lang}/blog`}>{ui[lang].blog}</a></li>
+                        <li class="px-8 py-1 text-sm"><a href={`/${lang}/privacypolicy`}>{ui[lang].privacy}</a></li>
+                    }
                 </ul>
             </div>
             <div class="w-full">
-                <p class="font-bold py-4">お問い合わせ</p>
+                <p class="font-bold py-4">{ui[lang].contact}</p>
                 <ul class="text-gray-500 px-8">
                     <li class="py-1 text-sm font-bold"><a href="/">
-                    <a href="mailto:xxx@xxx.com?subject=お問い合わせ&body=以下にお問い合わせ内容をご記入ください">こちらからメールにてお願いいたします</a></li>
+                    <a href=`mailto:imagawahirotaka@gmail.com?subject=${ui[lang].contact}`>{ui[lang].contactMessage}</a></li>
                 </ul>
             </div>
         }

@@ -1,29 +1,21 @@
 ---
 import { getCollection } from 'astro:content';
 import BlogLayout from "../../layouts/BlogLayout.astro";
-import { ui } from '../../i18n/ui.ts';
 
-export async function getStaticPaths() {
-    const entries = await getCollection('blog');
+const allPosts = await getCollection("blog");
+const compareFn = (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime();
+const sortedAllPosts = allPosts.slice().sort(compareFn);
 
-    return entries.map(entry => {
-            const [first, ...slug] =  entry.slug.slice().split('/');
-            const lang = (first in ui) ? first : '';
-            return {
-                params: { slug: entry.slug }, props: { entry, lang },
-            };
-        });
-}
-
-const { entry, lang } = Astro.props;
+const entry = sortedAllPosts[0];
 const { Content, headings } = await entry.render();
 ---
 
-<BlogLayout lang={lang} slug={entry.slug} frontmatter={entry.data} headings={headings}>
+<BlogLayout lang="en" slug={entry.slug} frontmatter={entry.data} headings={headings}>
     <div id="post">
         <Content />
     </div>
 </BlogLayout>
+
 
 <style>
 #post :global(pre) {
@@ -102,9 +94,9 @@ const { Content, headings } = await entry.render();
     font-size: 1.2rem;
     font-weight: bold;
     letter-spacing: 2px;
-    margin: 3rem 0px 2rem 0px;
-    padding: 10px 20px 10px 20px;
-    border-left: 7px solid #009f5f;
+    margin: 3rem 0px 3rem 0px;
+    padding: 10px 7px 10px 10px;
+    border-left: 7px solid #197ebc;
     border-bottom: 1px solid #ababab;
     line-height: 37px;
     -webkit-border-radius:1px;

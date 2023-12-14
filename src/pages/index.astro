@@ -10,7 +10,7 @@ const entry = sortedAllPosts[0];
 const { Content, headings } = await entry.render();
 ---
 
-<BlogLayout slug={entry.slug} frontmatter={entry.data} headings={headings}>
+<BlogLayout lang="jp" slug={entry.slug} frontmatter={entry.data} headings={headings}>
     <div id="post">
         <Content />
     </div>

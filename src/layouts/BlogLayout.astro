@@ -6,17 +6,22 @@ import { SEO } from "astro-seo";
 import { getCollection } from 'astro:content';
 import Pagenav from '../components/Pagenav.astro';
 import ToTopButton from "../components/ToTopButton.astro";
-const { slug, frontmatter, headings } = Astro.props;
+import LanguagePicker from "../components/LanguagePicker.astro";
+import { ui, defaultLang } from '../i18n/ui';
+const { lang, slug, frontmatter, headings } = Astro.props;
 const allPosts = await getCollection('blog');
+const currentLang = lang ? lang : "jp";
 const compareFn = (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime();
 const tags = [...new Set(allPosts.map((post) => post.data.tags).flat())];
-const sortedAllPosts = allPosts.slice().sort(compareFn);
+const filteredPosts = allPosts.slice().filter((post) => post.data.locale == currentLang);
+const sortedAllPosts = filteredPosts.slice().sort(compareFn);
 let currentIndex = sortedAllPosts.findIndex((post) => post.slug === slug);
 const prev = currentIndex == 0 ? undefined : sortedAllPosts[currentIndex-1];
 const next = (sortedAllPosts.length <= currentIndex) ? undefined : sortedAllPosts[currentIndex + 1];
+const [, ...currentSlug] = currentLang == defaultLang ? [" ", slug.slice()] : slug.slice().split('/');
 ---
 
-<html lang="en">
+<html lang={currentLang}>
     <head>
         <SEO
             title="astro_blik_public"
@@ -27,7 +32,7 @@ const next = (sortedAllPosts.length <= currentIndex) ? undefined : sortedAllPost
         <meta name="viewport" content="width=device-width" />
         <meta name="generator" content={Astro.generator} />
         <title>{frontmatter.pageTitle}</title>
-        <Header pageTitle={frontmatter.pageTitle} />
+        <Header currentLang={currentLang} pageTitle={frontmatter.pageTitle} />
     </head>
     <body class="max-w-6xl mx-auto bg-gray-50">
         <div class="mx-2">
@@ -36,9 +41,12 @@ const next = (sortedAllPosts.length <= currentIndex) ? undefined : sortedAllPost
                    {/* this column is empty*/} 
                 </div>
                 <div class="col-span-8 md:col-span-5">
+                    <div class="w-36">
+                        <LanguagePicker collection="blog" currentLang={currentLang} slug={currentSlug} />
+                    </div>
                     <Pagenav prev={prev} next={next} />
-                    <div id="pubDate" class="px-2">
-                        <p>公開日 {frontmatter.pubDate.getFullYear()}年{frontmatter.pubDate.getMonth()+1}月{frontmatter.pubDate.getDate()}日</p>
+                    <div id="pubDate" class="px-0">
+                        <p class="text-[1.0rem]">{frontmatter.pubDate.getFullYear()}-{frontmatter.pubDate.getMonth()+1}-{frontmatter.pubDate.getDate()}</p>
                     </div>
                     <div id="postTitle" class="grid grid-cols-8">
                         <div class="col-span-8">
@@ -53,12 +61,16 @@ const next = (sortedAllPosts.length <= currentIndex) ? undefined : sortedAllPost
                         {
                             frontmatter.tags.map((tag) => (
                                 <p class="tag">
-                                    <a href={`/tags/${tag}`}>{tag}</a>
+                                    {currentLang == defaultLang ? 
+                                        <a href={`/tags/${tag}`}>{tag}</a>
+                                        :
+                                        <a href={`/${currentLang}/tags/${tag}`}>{tag}</a>
+                                    }
                                 </p>
                             ))
                         }
                     </div>
-                    <div class="mx-4 my-8 font-bold font-sans text-xl text-gray-400 ">目次</div>
+                    <div class="mx-4 my-8 font-bold font-sans text-xl text-gray-400 ">{ui[currentLang].toc}</div>
                     <ul class="mx-4 my-4">
                         {headings.map((head) => {
                             return (
@@ -82,7 +94,11 @@ const next = (sortedAllPosts.length <= currentIndex) ? undefined : sortedAllPost
                             {
                                 tags.map((tag) => (
                                     <p class="tag">
+                                        {currentLang == defaultLang ? 
                                         <a href={`/tags/${tag}`}>{tag}</a>
+                                        :
+                                        <a href={`/${currentLang}/tags/${tag}`}>{tag}</a>
+                                        }
                                     </p>
                                 ))
                             }
@@ -99,7 +115,7 @@ const next = (sortedAllPosts.length <= currentIndex) ? undefined : sortedAllPost
             </div>
         </div>
         <div class="mx-2">
-            <Footer />
+            <Footer currentLang={currentLang} />
         </div>
     </body>
     <ToTopButton />

@@ -3,13 +3,15 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import ToTopButton from "../components/ToTopButton.astro";
 import { SEO } from "astro-seo";
-const { pageTitle, description } = Astro.props;
+import { ui, defaultLang } from '../i18n/ui';
+const { lang, pageTitle, description } = Astro.props;
+const currentLang = lang ? lang : "jp";
 ---
 
-<html lang="en">
+<html lang={currentLang}>
     <head>
         <SEO
-            title="astro_blik_public"
+            title={ui[currentLang].siteTitle}
             description={description}
         />
         <meta charset="utf-8" />
@@ -17,13 +19,13 @@ const { pageTitle, description } = Astro.props;
         <meta name="viewport" content="width=device-width" />
         <meta name="generator" content={Astro.generator} />
         <title>{pageTitle}</title>
-        <Header pageTitle={pageTitle} />
+        <Header currentLang={currentLang} pageTitle={pageTitle} />
     </head>
     <body class="max-w-6xl mx-auto bg-gray-50">
         <div class="mx-2">
             <slot />
             <!-- add your ads script -->
-            <Footer />
+            <Footer currentLang={currentLang} />
         </div>
     </body>
     <ToTopButton />
