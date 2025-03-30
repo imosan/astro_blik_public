@@ -1,0 +1,13 @@
+---
+import Hamburger from "./Hamburger.astro";
+import Navigation from "./Navigation.astro";
+const { currentLang } = Astro.props;
+---
+
+<header class="">
+    <nav class="">
+        <Navigation currentLang={currentLang} />
+    </nav>
+    <Hamburger />
+    <hr class="w-full border-slate-300"/>
+</header>

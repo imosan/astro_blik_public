@@ -1,0 +1,79 @@
+---
+title: 'SecondEntry'
+pubDate: 2023-12-08
+description: 'SecondEntry'
+author: "XXX"
+image: ""
+url: ""
+alt: 'SecondEntry'
+tags: ["astro", "tag2", "tag3"]
+seqNum: 0
+locale: 'en'
+---
+import BlogImage from '../../../components/BlogImage.astro';
+import BlogVideo from '../../../components/BlogVideo.astro';
+
+## Setup Instructions
+
+Execute the following in an environment where Ubuntu and node are already installed.
+
+Clone the astro_blik_public repository.
+
+```sh
+
+git clone https://github.com/imosan/astro_blik_public.git
+
+```
+Enter the cloned directory.
+```sh
+
+cd astro_blik_public
+
+```
+Install all packages.
+```sh
+
+npm install
+
+```
+If pnpm,
+```sh
+
+pnpm install
+
+```
+Start locally.
+```sh
+
+npm run dev
+
+```
+At the end, open the displayed URL in your browser. Typically, it is localhost:4321.
+
+
+## Deploy to vercel
+
+Execute the vercel command.
+
+```sh
+
+vercel
+
+```
+Answer the following choices.
+```
+
+Vercel CLI 32.5.5
+? Set up and deploy “/mnt/c/Development/Firebase/astro_blik_public”? [Y/n] Y
+? Which scope do you want to deploy to? xxxx
+? Link to existing project? [y/N] n
+? In which directory is your code located? ./
+? Want to modify these settings? [y/N] N
+
+```
+When the build finishes, the deployed URL will appear as Preview: https://xxx.vercel.app, which can be accessed.
+
+
+The following is the author’s deployment using the above procedure.
+
+https://astro-blik-public-e69a1qdkj-imosans-projects.vercel.app/

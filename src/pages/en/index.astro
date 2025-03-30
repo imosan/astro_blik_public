@@ -1,0 +1,191 @@
+---
+import { getCollection } from 'astro:content';
+import BlogLayout from "../../layouts/BlogLayout.astro";
+
+const allPosts = await getCollection("blog");
+const compareFn = (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime();
+const sortedAllPosts = allPosts.slice().sort(compareFn);
+
+const entry = sortedAllPosts[0];
+const { Content, headings } = await entry.render();
+---
+
+<BlogLayout lang="en" slug={entry.slug} frontmatter={entry.data} headings={headings}>
+    <div id="post">
+        <Content />
+    </div>
+</BlogLayout>
+
+
+<style>
+#post :global(pre) {
+    word-wrap: break-word;
+    color: #d4d4d4;
+    padding-left: 18px;
+    border-radius: 6px;
+    overflow: auto;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+#post :global(code) {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 16px;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+#post :global(.cmt) {
+    background-color: rgb(157 234 203);
+    border-color: rgb(107 114 128);
+    border-width: 0px;
+    border-style: dashed;
+    border-radius: 0.75rem/* 12px */;
+    margin-top: 2.5rem/* 40px */;
+    margin-bottom: 2.5rem/* 40px */;
+    padding: 1rem/* 16px */;
+    font-weight: bold;
+}
+
+#post :global(sk) {
+    color: #009f5f;
+    background: #ffffff;
+    font-weight: bold;
+    border: solid;
+    margin: 0px 5px 0px 5px;
+    padding-left: 1rem/* 16px */;
+    padding-right: 1rem/* 16px */;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+}
+
+#post :global(a) {
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+#post :global(a:hover) {
+    font-weight: 700;
+    color: #656565;
+    text-decoration: underline;
+}
+
+#post :global(h1) {
+    color: #656565;
+    background: #ffffff;
+    font-family: Arial,Verdana,sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin: 55px 0px 10px 0px;
+    padding: 10px 7px 10px 10px;
+    border-left: 0px solid #cccccc;
+    line-height: 38px;
+    -webkit-border-radius:1px;
+    -moz-border-radius:1px;
+    border-radius:1px;
+}
+
+#post :global(h2) {
+    color: #616161;
+    background: #f6f6f6;
+    font-family: Arial,Verdana,sans-serif;
+    font-size: 1.2rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin: 3rem 0px 3rem 0px;
+    padding: 10px 7px 10px 10px;
+    border-left: 7px solid #197ebc;
+    border-bottom: 1px solid #ababab;
+    line-height: 37px;
+    -webkit-border-radius:1px;
+    -moz-border-radius:1px;
+    border-radius:1px;
+}
+
+#post :global(h3) {
+    margin: 3rem 1rem 3rem 1rem;
+    padding: 5px 7px 5px 10px;
+    color: #616161;
+    font-family: Arial,Verdana,sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    border-left: 3px solid #616161;
+    border-bottom: 1px solid #ababab;
+    line-height: 22px;
+    -webkit-border-radius:1px;
+    -moz-border-radius:1px;
+    border-radius:1px;
+}
+
+#post :global(h4) {
+    margin: 3rem 1rem 3rem 1.4rem;
+    padding: 5px 7px 5px 10px;
+    color: #616161;
+    font-family: Arial,Verdana,sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    line-height: 22px;
+    -webkit-border-radius:1px;
+    -moz-border-radius:1px;
+    border-radius:1px;
+}
+
+#post :global(table, td, th) {
+    border: 2px #adadad solid;
+    margin: 35px -8px 20px 0px;
+    padding: 10px 7px 10px 10px;
+}
+
+@media (min-width: 0px) {
+    #post :global(p) {
+        margin: 0.5rem 0;
+        padding: 0.1rem 1rem 0.1rem 1rem;
+        font-family: Arial,Verdana,sans-serif;
+        font-size: 0.9rem;
+    }
+    #post :global(h1) {
+        background: #009f5f;
+        color: white;
+        font-family: Arial,Verdana,sans-serif;
+        font-size: 1.5rem;
+        font-weight: bold;
+        letter-spacing: 2px;
+        margin: 2rem 0px 2rem 0px;
+        padding: 14px 7px 18px 27px;
+        border-bottom: 3px solid rgb(12, 114, 66);
+        line-height: 40px;
+        -webkit-border-radius: 14px;
+        -moz-border-radius: 14px;
+        border-radius: 14px;
+    }
+}
+
+@media (min-width: 800px) {
+    #post :global(p) {
+        margin: 0.5rem 0;
+        padding: 0.1rem 1rem 0.1rem 1rem;
+        font-family: Arial,Verdana,sans-serif;
+        font-size: 1rem;
+    }
+    #post :global(h1) {
+        background: #009f5f;
+        color: white;
+        font-family: Arial,Verdana,sans-serif;
+        font-size: 1.2rem;
+        font-weight: bold;
+        letter-spacing: 2px;
+        margin: 2rem 0px 2rem 0px;
+        padding: 14px 7px 18px 27px;
+        border-bottom: 3px solid rgb(12, 114, 66);
+        line-height: 40px;
+        -webkit-border-radius: 14px;
+        -moz-border-radius: 14px;
+        border-radius: 14px;
+    }
+}
+
+</style>

@@ -1,0 +1,32 @@
+---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import ToTopButton from "../components/ToTopButton.astro";
+import { SEO } from "astro-seo";
+import { ui, defaultLang } from '../i18n/ui';
+const { lang, pageTitle, description } = Astro.props;
+const currentLang = lang ? lang : "jp";
+---
+
+<html lang={currentLang}>
+    <head>
+        <SEO
+            title={ui[currentLang].siteTitle}
+            description={description}
+        />
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>{pageTitle}</title>
+        <Header currentLang={currentLang} pageTitle={pageTitle} />
+    </head>
+    <body class="max-w-6xl mx-auto bg-gray-50">
+        <div class="mx-2">
+            <slot />
+            <!-- add your ads script -->
+            <Footer currentLang={currentLang} />
+        </div>
+    </body>
+    <ToTopButton />
+</html>

@@ -1,0 +1,27 @@
+---
+import { defaultLang } from '../i18n/ui';
+const { currentLang } = Astro.props;
+const lang = currentLang == defaultLang ? "" : currentLang;
+---
+
+<div class="flex mx-0 my-0 h-24 md:h-full bg-gray-200">
+    <div class="overflow-hidden h-24 text-center">
+        <a href="/" class="block w-full h-full cursor-pointer text-center">
+            <div class="mx-4 font-extrabold text-[2rem] text-white">astro_blik_public</div>
+        </a>
+    </div>
+</div>
+
+<div class="my-0 hidden md:block right-0">
+    <div class="-translate-y-20 -translate-x-20 flex justify-end space-x-14 font-bold text-gray-500">
+        { currentLang == defaultLang ?
+            <a href="/">Home</a>
+            <a href={`/blog/`}>Blog</a>
+            <a href={`/tags/`}>Tags</a>
+        :
+            <a href={`/${lang}`}>Home</a>
+            <a href={`/${lang}/blog/`}>Blog</a>
+            <a href={`/${lang}/tags/`}>Tags</a>
+        }
+    </div>
+</div>

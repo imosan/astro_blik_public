@@ -1,0 +1,75 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import BlogPost from "../../../components/BlogPost.astro";
+
+export async function getStaticPaths() {
+    const blogEntries = await getCollection('blog');
+    const blogLocaleEntries = blogEntries.slice().filter((post) => post.data.locale === "en");
+    const allPosts = [...blogLocaleEntries];
+    const comparePubDateFn = (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
+
+    const uniqueTags = [
+        ...new Set(allPosts.map((post) => post.data.tags).flat()),
+    ];
+
+    return uniqueTags.map((tag) => {
+        const filteredBlogPosts = blogLocaleEntries.filter((post) => post.data.tags.includes(tag)).sort(comparePubDateFn);
+        const filteredPosts = [...filteredBlogPosts];
+        return {
+            params: { tag },
+            props: { posts: filteredPosts },
+        };
+    });
+}
+
+const { tag } = Astro.params;
+const { posts } = Astro.props;
+---
+
+<BaseLayout currentLang={"en"} pageTitle={tag}>
+    <div class="grid grid-cols-8 gap-4 my-16">
+        <div class="col-span-1 hidden md:block">
+            <div class="tags">
+                <p class="tag">{tag}</p>
+            </div>
+        </div>
+        <div class="col-span-8 md:col-span-5">
+            <ul>
+                {
+                    posts.map((post) => (
+                        <BlogPost post={post} largeText={true}/>
+                    ))
+                }
+            </ul>
+        </div>
+        <div class="col-span-8 md:col-span-2 md:block">
+            <ul class="mx-2 py-4">
+                <!-- add your ads script -->
+                <hr/>
+            </ul>
+        </div>
+    </div>
+</BaseLayout>
+
+<style>
+a {
+    color: #00539f;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+}
+
+.tag {
+    margin: 0.2em;
+    border: solid 1px #009f5f;
+    border-radius: 0.5em;
+    padding: 0.2em 0.5em;
+    font-size: 0.9em;
+    color: #009f5f;
+    background-color: white;
+}
+</style>

@@ -1,0 +1,286 @@
+---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import BlogPost from "../components/BlogPost.astro";
+import { SEO } from "astro-seo";
+import { getCollection } from 'astro:content';
+import Pagenav from '../components/Pagenav.astro';
+import ToTopButton from "../components/ToTopButton.astro";
+import LanguagePicker from "../components/LanguagePicker.astro";
+import { ui, defaultLang } from '../i18n/ui';
+const { lang, slug, frontmatter, headings } = Astro.props;
+const allPosts = await getCollection('blog');
+const currentLang = lang ? lang : "jp";
+const compareFn = (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime();
+const tags = [...new Set(allPosts.map((post) => post.data.tags).flat())];
+const filteredPosts = allPosts.slice().filter((post) => post.data.locale == currentLang);
+const sortedAllPosts = filteredPosts.slice().sort(compareFn);
+let currentIndex = sortedAllPosts.findIndex((post) => post.slug === slug);
+const prev = currentIndex == 0 ? undefined : sortedAllPosts[currentIndex-1];
+const next = (sortedAllPosts.length <= currentIndex) ? undefined : sortedAllPosts[currentIndex + 1];
+const [, ...currentSlug] = currentLang == defaultLang ? [" ", slug.slice()] : slug.slice().split('/');
+---
+
+<html lang={currentLang}>
+    <head>
+        <SEO
+            title="astro_blik_public"
+            description={frontmatter.description}
+        />
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>{frontmatter.pageTitle}</title>
+        <Header currentLang={currentLang} pageTitle={frontmatter.pageTitle} />
+    </head>
+    <body class="max-w-6xl mx-auto bg-gray-50">
+        <div class="mx-2">
+            <div class="grid grid-cols-8 gap-4">
+                <div class="col-span-1 hidden md:block">
+                   {/* this column is empty*/} 
+                </div>
+                <div class="col-span-8 md:col-span-5">
+                    <div class="w-36">
+                        <LanguagePicker collection="blog" currentLang={currentLang} slug={currentSlug} />
+                    </div>
+                    <Pagenav prev={prev} next={next} />
+                    <div id="pubDate" class="px-0">
+                        <p class="text-[1.0rem]">{frontmatter.pubDate.getFullYear()}-{frontmatter.pubDate.getMonth()+1}-{frontmatter.pubDate.getDate()}</p>
+                    </div>
+                    <div id="postTitle" class="grid grid-cols-8">
+                        <div class="col-span-8">
+                            <h1>{frontmatter.title}</h1>
+                        </div>
+                    </div>
+                    <div>
+                        <!-- insert your add code -->
+                    </div>
+
+                    <div class="tags">
+                        {
+                            frontmatter.tags.map((tag) => (
+                                <p class="tag">
+                                    {currentLang == defaultLang ? 
+                                        <a href={`/tags/${tag}`}>{tag}</a>
+                                        :
+                                        <a href={`/${currentLang}/tags/${tag}`}>{tag}</a>
+                                    }
+                                </p>
+                            ))
+                        }
+                    </div>
+                    <div class="mx-4 my-8 font-bold font-sans text-xl text-gray-400 ">{ui[currentLang].toc}</div>
+                    <ul class="mx-4 my-4">
+                        {headings.map((head) => {
+                            return (
+                                <a class="hover:underline" href=`#${head.slug}`>
+                                    <div id="toc">
+                                        <p class=`my-2 px-${head.depth * 4}`>・　{head.text}</p>
+                                    </div>
+                                </a>
+                            );
+                        })}
+                    </ul>
+                    <slot />
+                    <div>
+                        <!-- insert your add code -->
+                    </div>
+                    <Pagenav prev={prev} next={next} />
+                </div>
+                <div class="col-span-8 md:col-span-2 md:block">
+                    <ul class="mx-2 py-4">
+                        <div class="tags">
+                            {
+                                tags.map((tag) => (
+                                    <p class="tag">
+                                        {currentLang == defaultLang ? 
+                                        <a href={`/tags/${tag}`}>{tag}</a>
+                                        :
+                                        <a href={`/${currentLang}/tags/${tag}`}>{tag}</a>
+                                        }
+                                    </p>
+                                ))
+                            }
+                        </div>
+                        <hr/>
+                        {sortedAllPosts.map((post) => <BlogPost post={post} />)}
+                        <hr/>
+                        <div>
+                            <!-- astro_blik_display -->
+                        </div>
+                        <hr/>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="mx-2">
+            <Footer currentLang={currentLang} />
+        </div>
+    </body>
+    <ToTopButton />
+</html>
+
+<script is:inline>
+let copyButtonLabel = "Copy";
+let codeBlocks = Array.from(document.querySelectorAll("pre"));
+
+for (let codeBlock of codeBlocks) {
+    let wrapper = document.createElement("div");
+    wrapper.style.position = "relative";
+
+    let copyButton = document.createElement("button");
+    copyButton.className = "copy-code";
+    copyButton.innerHTML = copyButtonLabel;
+
+    codeBlock.setAttribute("tabindex", "0");
+    codeBlock.appendChild(copyButton);
+    // wrap codebock with relative parent element
+    codeBlock.parentNode.insertBefore(wrapper, codeBlock);
+    wrapper.appendChild(codeBlock);
+
+    copyButton.addEventListener("click", async () => {
+        await copyCode(codeBlock, copyButton);
+    });
+}
+
+async function copyCode(block, button) {
+    let code = block.querySelector("code");
+    let text = code.innerText;
+
+    await navigator.clipboard.writeText(text);
+
+    // visual feedback that task is completed
+    button.innerText = "Copied";
+
+    setTimeout(() => {
+        button.innerText = copyButtonLabel;
+    }, 150);
+}
+</script>
+
+<style>
+:global(.copy-code) {
+    position: absolute;
+    top: 3px;
+    right: 20px;
+    font-weight: bold;
+    background-color: #02623b;
+    padding: 0.15rem 0.4rem;
+    font-size: 0.8rem;
+    line-height: 1rem;
+    border-radius: 4px;
+}
+
+:global(.copy-code:hover) {
+    color: white;
+    background-color: #009f5f;
+}
+
+:global(p) {
+    color: #404040;
+    line-height: 2.0rem;
+}
+
+#pubDate p {
+    font-family: sans-serif;
+    color: #009f5f;
+    font-weight: bold;
+}
+
+#toc :global(p) {
+    color:dimgray;
+    font-family: Arial,Verdana,sans-serif;
+}
+
+#postTitle :global(p) {
+    color: #f7fffc;
+    background: #009f5f;
+    font-family: Arial,Verdana,sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    padding-left: 0rem;
+    padding-right: 0rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    text-align: center;
+    line-height: 40px;
+    -webkit-border-radius: 14px;
+    -moz-border-radius: 14px;
+    border-radius: 10px;
+    --tw-shadow: 0 4px 8px -1px rgb(0 0 0 / 0.2), 0 2px 4px -2px rgb(0 0 0 / 0.2);
+    --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+#postTitle :global(h1) {
+    color: #f7fffc;
+    background: #009f5f;
+    font-family: Arial,Verdana,sans-serif;
+    font-weight: bold;
+    letter-spacing: 2px;
+    line-height: 40px;
+    -webkit-border-radius: 14px;
+    -moz-border-radius: 14px;
+    border-radius: 14px;
+    --tw-shadow: 0 4px 8px -1px rgb(0 0 0 / 0.2), 0 2px 4px -2px rgb(0 0 0 / 0.2);
+    --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+@media (min-width: 0px) {
+    :global(p) {
+        color: #404040;
+        line-height: 1.6rem;
+    }
+
+    #toc :global(p) {
+        font-size: 0.9rem;
+    }
+
+    #postTitle :global(p) {
+        font-size: 1.5rem;
+        margin: 0.5rem 5px 2rem 0px;
+    }
+
+    #postTitle :global(h1) {
+        font-size: 1.0rem;
+        margin: 0.5rem 0px 2rem 0px;
+        padding: 14px 7px 18px 27px;
+    }
+}
+
+@media (min-width: 800px) {
+    #toc :global(p) {
+        font-size: 1rem;
+    }
+
+    #postTitle :global(p) {
+        font-size: 2.2rem;
+        margin: 0.5rem 20px 2rem 0px;
+    }
+
+    #postTitle :global(h1) {
+        font-size: 1.2rem;
+        margin: 0.5rem 0px 2rem 0px;
+        padding: 14px 7px 18px 27px;
+    }
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+}
+
+.tag {
+    margin: 0.2em;
+    border: dotted 1px #a1a1a1;
+    border-radius: 0.5em;
+    padding: 0.2em 0.5em;
+    font-size: 0.9em;
+    color: white;
+    background-color: #009f5f;
+}
+</style>

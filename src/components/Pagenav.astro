@@ -1,0 +1,90 @@
+---
+const { prev, next } = Astro.props;
+---
+
+<div class="col-span-8 md:col-span-3 my-8">
+    <div class="grid grid-cols-8 gap-4">
+        {prev && (
+            <a class="rounded-xl col-start-1 col-end-5 border-gray-200 border-2 hover:border-2 hover:border-white hover:bg-[#9deacb]" href=`/${prev.collection}/${prev.slug}`>
+                <div class="p-8">
+                    <div class="flex justify-start">
+                        {prev?.data.seqNum != undefined && <div class="text-[#009f5f] w-1/6 text-center rounded-2xl text-3xl p-2 md:shadow-md font-bold">{`${prev?.data.seqNum}`}</div>}
+                        {prev && (
+                            <p class="text-[#009f5f] text-center text-sm p-4">{`<< ${prev.data.title}`}</p>
+                        )}
+                    </div>
+                    {/*
+                    <div>
+                        {prev && prev.data.seqNum >= 0 && (
+                            <p class="py-4">{prev.data.description}</p>
+                        )}
+                    </div>
+                    */}
+                </div>
+            </a>
+        )}
+        {next && (
+            <a class="rounded-xl col-end-9 col-span-4 border-gray-200 border-2 hover:border-2 hover:border-white hover:bg-[#9deacb]" href=`/${next.collection}/${next.slug}`>
+                <div class="p-8">
+                    <div class="flex justify-end">
+                        {next && (
+                            <p class="text-[#009f5f] text-center text-sm p-4">{`${next.data.title} >>`}</p>
+                        )}
+                        {next?.data.seqNum != undefined && <div class="text-[#009f5f] w-1/6 text-center rounded-2xl text-3xl p-2 md:shadow-md font-bold">{`${next?.data.seqNum}`}</div>}
+                    </div>
+                    {/*
+                    <div>
+                        {next && next.data.seqNum >= 0 && (
+                            <p class="py-4">{next.data.description}</p>
+                        )}
+                    </div>
+                    */}
+                </div>
+            </a>
+        )}
+    </div>
+</div>
+
+<style>
+@media (min-width: 0px) {
+    h5 {
+        background: #009f5f;
+        color: white;
+        font-family: Arial,Verdana,sans-serif;
+        font-size: 1.5rem;
+        font-weight: bold;
+        letter-spacing: 2px;
+        margin: 2rem 0px 2rem 0px;
+        padding: 14px 7px 18px 27px;
+        border-bottom: 3px solid rgb(12, 114, 66);
+        line-height: 40px;
+        -webkit-border-radius: 14px;
+        -moz-border-radius: 14px;
+        border-radius: 14px;
+    }
+    .h5.right {
+        text-align: right;
+    }
+}
+
+@media (min-width: 800px) {
+    h5 {
+        background: #009f5f;
+        color: white;
+        font-family: Arial,Verdana,sans-serif;
+        font-size: 1.1rem;
+        font-weight: bold;
+        letter-spacing: 2px;
+        margin: 2rem 0px 2rem 0px;
+        padding: 14px 7px 18px 27px;
+        border-bottom: 3px solid rgb(12, 114, 66);
+        line-height: 40px;
+        -webkit-border-radius: 14px;
+        -moz-border-radius: 14px;
+        border-radius: 14px;
+    }
+    .h5.right {
+        text-align: right;
+    }
+}
+</style>
